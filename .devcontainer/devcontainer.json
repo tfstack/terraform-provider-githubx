@@ -1,0 +1,51 @@
+{
+  "name": "Terraform Provider GitHubx",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers/features/terraform:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "davidanson.vscode-markdownlint",
+        "golang.go",
+        "hashicorp.terraform",
+        "Gruntfuggly.todo-tree",
+        "ms-azuretools.vscode-docker",
+        "vscode-icons-team.vscode-icons",
+        "ms-vscode.makefile-tools"
+      ],
+      "settings": {
+        "workbench.iconTheme": "vscode-icons",
+        "go.useLanguageServer": true,
+        "go.formatTool": "goimports",
+        "go.lintTool": "golangci-lint",
+        "go.lintOnSave": "package",
+        "[go]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "[terraform]": {
+          "editor.formatOnSave": true
+        },
+        "terraform.format.enable": true,
+        "terraform.languageServer.enable": true
+      }
+    }
+  },
+
+  "postCreateCommand": ".devcontainer/scripts/postCreate.sh",
+
+  "remoteUser": "root",
+
+  "mounts": [
+    "source=${localEnv:HOME}/.config/gh,target=/root/.config/gh,type=bind,consistency=cached"
+  ]
+}
