@@ -846,7 +846,11 @@ func (r *repositoryFileResource) readFile(ctx context.Context, owner, repoName, 
 			model.CommitSHA = types.StringValue(commit.GetSHA())
 
 			if commit.Commit != nil {
-				model.CommitMessage = types.StringValue(commit.Commit.GetMessage())
+				// Only set commit message if not already set to preserve user-provided value
+				// (GitHub may normalize trailing newlines)
+				if model.CommitMessage.IsNull() || model.CommitMessage.IsUnknown() {
+					model.CommitMessage = types.StringValue(commit.Commit.GetMessage())
+				}
 
 				if commit.Commit.Committer != nil {
 					commitAuthor := commit.Commit.Committer.GetName()
